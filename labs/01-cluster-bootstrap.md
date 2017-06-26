@@ -17,7 +17,7 @@ Create the `asia-east1-b` cluster:
 
 ```
 gcloud beta container clusters create asia-east1-b \
-  --cluster-version 1.6.2 \
+  --cluster-version 1.6.6 \
   --zone asia-east1-b \
   --scopes "cloud-platform,storage-ro,logging-write,monitoring-write,service-control,service-management,https://www.googleapis.com/auth/ndev.clouddns.readwrite"
 ```
@@ -26,7 +26,7 @@ Create the `europe-west1-b` cluster:
 
 ```
 gcloud beta container clusters create europe-west1-b \
-  --cluster-version 1.6.2 \
+  --cluster-version 1.6.6 \
   --zone=europe-west1-b \
   --scopes "cloud-platform,storage-ro,logging-write,monitoring-write,service-control,service-management,https://www.googleapis.com/auth/ndev.clouddns.readwrite"
 ```
@@ -35,7 +35,7 @@ Create the `us-east1-b` cluster:
 
 ```
 gcloud beta container clusters create us-east1-b \
-  --cluster-version 1.6.2 \
+  --cluster-version 1.6.6 \
   --zone=us-east1-b \
   --scopes "cloud-platform,storage-ro,logging-write,monitoring-write,service-control,service-management,https://www.googleapis.com/auth/ndev.clouddns.readwrite"
 ```
@@ -44,7 +44,7 @@ Create the `us-central1-b` cluster:
 
 ```
 gcloud beta container clusters create us-central1-b \
-  --cluster-version 1.6.2 \
+  --cluster-version 1.6.6 \
   --zone=us-central1-b \
   --scopes "cloud-platform,storage-ro,logging-write,monitoring-write,service-control,service-management,https://www.googleapis.com/auth/ndev.clouddns.readwrite"
 ```
@@ -52,7 +52,7 @@ gcloud beta container clusters create us-central1-b \
 Save the cluster credentials:
 
 ```
-for cluster in asia-east1-b europe-west1-b us-east1-b us-central1-b; do
+for cluster in $(gcloud container clusters list --format="value(name.basename())"); do
   gcloud container clusters get-credentials ${cluster} \
   --zone ${cluster}
 done
@@ -67,7 +67,7 @@ GCP_PROJECT=$(gcloud config list --format='value(core.project)')
 Create context aliases:
 
 ```
-for cluster in asia-east1-b europe-west1-b us-east1-b us-central1-b; do
+for cluster in $(gcloud container clusters list --format="value(name.basename())"); do
   kubectl config set-context ${cluster} \
     --cluster=gke_${GCP_PROJECT}_${cluster}_${cluster} \
     --user=gke_${GCP_PROJECT}_${cluster}_${cluster}
